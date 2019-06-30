@@ -1,0 +1,6 @@
+Name of Run: Test Run 1
+Name of Opponent: Random
+Description: random samples cached for ten thousand steps, then agent trains with a linear progression in its certainty of deciding the move throughout another ten thousand frames.
+Date and Time of Run: 6.30.2019_1:44:24
+Wins: 5
+Losses: 5
