@@ -25,15 +25,18 @@ b = experience_buffer(1000000)
 random_player = agent(experience_buffer(1000000), game, 1)
 trainables = tf.trainable_variables()
 trained_player = agent(b, game, 1)
-for i in range (0, 40000):
-	trained_player.make_action(trained_player.get_logits(), 1-(max(i-20000, 0)/20000))
-	if((i+1)%100 == 0):
+for i in range (0, 100000):
+	trained_player.make_action(trained_player.get_logits(), 1)
+	if((i+1)%1000 == 0):
 		print("{} rounds completed".format(i))
-	if ((i+1) % 1000 == 0 and i > 20000):
-		trained_player.train(0.1, 200, 10)
+	#if ((i+1) % 1000 == 0 and i > 20000):
+		#trained_player.train(0.1, 200, 10)
+for k in range (0, 100):
+	#trained_player.train(max((10-k/100), 0), 1000, 100)
+	trained_player.train(0, 1000, 100)
 game.reset_game()
 rand_wins, trained_wins = 0,0
-num_games = 300
+num_games = 100
 for j in range (0, num_games):
 	game.reset_game()
 	turn,c = 0,0

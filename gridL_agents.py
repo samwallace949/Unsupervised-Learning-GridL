@@ -57,7 +57,8 @@ class agent ():
 		optimizer = tf.train.GradientDescentOptimizer(0.1)
 		train_op = optimizer.minimize(loss, var_list = self.target_vars)
 		for i in range (0, num_frames):
-			print("{} training frames have been processed".format(i))
+			if(i % 100 == 0):
+				print("{} training frames have been processed".format(i))
 			f = self.buffer.peek_frame_random()
 			if(np.random.random() < prob_reward_frame):
 				f = self.buffer.peek_frame_random_reward_threshold()
