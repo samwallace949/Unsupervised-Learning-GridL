@@ -10,7 +10,27 @@ Losses: 5
 
 Name of Run: 0.02
 Name of Opponent: Random
-Description: 100,000 random frames cached, then agent trains 100,000 frames only on this bank.
+Description: 100,000 random frames cached, then agent trains 100,000 random frames only on this bank.
 Date and Time of Run: 7.3.2019_17:17:24
 Wins: 92
 Losses: 8
+
+
+
+
+Name of Run: 0.03
+Name of Opponent: Random
+Description: 100,000 random frames cached, then agent trains 100,000 frames only on this bank with a weight towards more reward frames at the beginning of training.
+Date and Time of Run: 7.3.2019_17:52:37
+Wins: 56
+Losses: 44
+
+
+
+
+Name of Run: 0.04
+Name of Opponent: Random
+Description: 600 thousand frames made randomly, 400 thousand trained randomly
+Date and Time of Run: 7.3.2019_20:12:13
+Wins: 6
+Losses: 4

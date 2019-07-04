@@ -21,12 +21,12 @@ class agent ():
 			self.ops.append(tensor.assign((target_update_rate * self.target_vars[i].value())+((1-target_update_rate) * tensor.value())))
 	def get_logits(self):
 		return self.sess.run(self.target_network.logits, feed_dict = {self.target_network.frame: [self.game.make_frame().flatten()]})
-	def make_action(self, l, prob_rand):
+	def make_action(self, prob_rand):
 		initial_score_difference = self.game.score[0, 0] - self.game.score[0, 1] # calculates initial score delta
 		o_s = self.game.make_frame()
-		logits = np.copy(l[0])
-		if(prob_rand > np.random.rand()):
-			logits = np.random.rand(1,196)[0]
+		logits = np.random.rand(1,196)[0]
+		if(prob_rand < np.random.rand()):
+			logits = np.copy(self.get_logits()[0])
 		final_action = -1
 		c = 0
 		while True:
@@ -57,8 +57,6 @@ class agent ():
 		optimizer = tf.train.GradientDescentOptimizer(0.1)
 		train_op = optimizer.minimize(loss, var_list = self.target_vars)
 		for i in range (0, num_frames):
-			if(i % 100 == 0):
-				print("{} training frames have been processed".format(i))
 			f = self.buffer.peek_frame_random()
 			if(np.random.random() < prob_reward_frame):
 				f = self.buffer.peek_frame_random_reward_threshold()

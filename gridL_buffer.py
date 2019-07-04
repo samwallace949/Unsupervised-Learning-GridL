@@ -11,21 +11,23 @@ class experience_buffer ():
 		self.c = capacity
 		self.buffer = []
 		self.counter = 0
+		self.r_buffer = []
 	def size (self):
 		return len(self.buffer)
 	def add_frame(self, frame):
 		if self.size() < self.c:
 			self.buffer.append(frame)
+			if frame.r != 0:
+				self.r_buffer.append(self.size()-1)
 		else:
 			self.buffer[self.counter] = frame
+			if frame.r != 0:
+				self.r_buffer.append(self.counter)
 			self.counter = (self.counter + 1) % self.size()
+		
 	def peek_frame_random_reward_threshold(self):
-		with_nonzero_r = []
-		for i in range (0, self.size()):
-			if(self.buffer[i].r != 0):
-				with_nonzero_r.append(i)
-		r = np.random.randint(0, len(with_nonzero_r))
-		return self.buffer[r]
+		r = np.random.randint(0, len(self.r_buffer))
+		return self.buffer[self.r_buffer[r]]
 	def peek_frame_random(self):
 		r = np.random.randint(0, self.size())
 		return self.buffer[r]
