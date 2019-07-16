@@ -44,3 +44,4 @@ class experience_buffer ():
 		print(f.r)
 		print ("\n")
 		print(f.n_s)
+	

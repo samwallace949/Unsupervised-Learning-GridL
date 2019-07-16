@@ -2,6 +2,7 @@ from gridL_network import network
 import tensorflow as tf
 import numpy as np
 from gridL_buffer import buffer_image
+import threading
 class agent ():
 	def __init__(self, buffer, game, target_update_rate):
 		self.game = game
@@ -48,7 +49,7 @@ class agent ():
 		final_score_difference = self.game.score[0, 0] - self.game.score[0, 1]
 		reward = final_score_difference - initial_score_difference
 		self.buffer.add_frame(buffer_image(o_s, final_action, reward, self.game.make_frame()))
-		self.game.rotate_game()
+		self.game.rotate_game()	
 	def train(self, prob_reward_frame, num_frames, frames_until_reset):
 		f = self.buffer.peek_frame_random()
 		x = (np.max(self.training_network.logits)) + f.r

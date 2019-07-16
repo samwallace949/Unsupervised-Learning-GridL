@@ -28,7 +28,7 @@ class gameData ():
 		if self.is_valid_location(piece, position) == False:
 			if(print_error == True):
 				print("Invalid Piece Location")
-			return False;
+			return False
 		for i in range(0,3):
 			self.board[position[0]+pieces[piece][i][0], position[1] + pieces[piece][i][1]] = 1#change values of the board
 		self.options1[0, piece] = 1

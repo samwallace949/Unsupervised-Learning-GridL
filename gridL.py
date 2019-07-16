@@ -8,7 +8,7 @@ from gridL_agents import agent
 from gridL_buffer import experience_buffer
 from gridL_buffer import buffer_image
 from gridL_game import gameData
-
+import threading
 path = "./saved-models"
 model_desc_file = "saved_run_backlog.txt"
 def time_string():
@@ -20,6 +20,29 @@ def max(a,b):
 	if a>b:
 		return a
 	return b
+def generate_frames(buffer, n_frames, n_threads):
+	init_cap = buffer.size()
+	frames_per_thread = n_frames/n_threads
+	threads = []
+	for i in range (0, n_threads):
+		if(i == 0):
+			t = threading.Thread(target = gen_frames_worker, args = (buffer, frames_per_thread + (n_frames % n_threads),), daemon = True)
+		else:
+			t = threading.Thread(target = gen_frames_worker, args = (buffer, frames_per_thread,), daemon = True)
+		threads.append(t)
+		t.start()
+	while buffer.size()-init_cap < n_frames:
+		time.sleep(1)
+		print(str(buffer.size()-init_cap) + " rounds completed")
+def gen_frames_worker(buffer, n_frames):
+	game = gameData(100)
+	b = experience_buffer(n_frames)
+	worker = agent(b, game, 1)
+	for i in range(0, int(n_frames)):
+		worker.make_action(1)
+	for j in range (0, int(n_frames)):
+		buffer.add_frame(b.buffer[j])
+
 ###### ^^^^^ VARIOUS STATIC METHODS AND VARIABLES ^^^^^ ######
 		
 if not os.path.exists(path):
@@ -30,19 +53,22 @@ while True:
 	b = experience_buffer(1000000)
 	random_player = agent(experience_buffer(1000000), game, 1)
 	trainables = tf.trainable_variables()
-	trained_player = agent(b, game, 1)
+	trained_player = agent(b, game, 0.5)
 	saver = tf.train.Saver()
-	a,b = 'n', 'y'
+	load_model, train_model = 'n', 'y'
 	#a = input("load model?")
 	#b = input("train model?")
-	if(a == 'y'):
+	if(load_model == 'y'):
 			cpkt = tf.train.get_checkpoint_state(path)
 			saver.restore(trained_player.sess,cpkt.model_checkpoint_path)
-	if(b == 'y'):
-		for i in range (0, 400000):
-			trained_player.make_action(1)
-			if((i+1)%1000 == 0):
-				print("{} rounds completed".format(i))
+	if(train_model == 'y'):
+		init_time = time.time()
+		#for i in range (0, 20000):
+		#	trained_player.make_action(1)
+		#	if((i+1)%1000 == 0):
+		#		print("{} rounds completed".format(i))
+		generate_frames(b, 20000, 8)
+		print("generating frames took {} seconds".format(time.time() - init_time))
 		for k in range (0, 30):
 			print("{} epochs completed".format(k))
 			trained_player.train(0, 10000, 1000)
