@@ -34,3 +34,14 @@ Description: 600 thousand frames made randomly, 400 thousand trained randomly
 Date and Time of Run: 7.3.2019_20:12:13
 Wins: 6
 Losses: 4
+
+
+
+
+Name of Run: 0.05
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames.
+Improvement: more-than-tripled the size of the hidden layers (63 to 196) and changed learning rate from 0.1 to 0.001.
+Date and Time of Run: 8.1.2019_13:26:19
+Wins: 96
+Losses: 4

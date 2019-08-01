@@ -60,14 +60,14 @@ while True:
 	#b = input("train model?")
 	if(load_model == 'y'):
 			cpkt = tf.train.get_checkpoint_state(path)
-			saver.restore(trained_player.sess,cpkt.model_checkpoint_path)
+			#saver.restore(trained_player.sess,cpkt.model_checkpoint_path)
 	if(train_model == 'y'):
 		init_time = time.time()
-		#for i in range (0, 20000):
-		#	trained_player.make_action(1)
-		#	if((i+1)%1000 == 0):
-		#		print("{} rounds completed".format(i))
-		generate_frames(b, 20000, 8)
+		for i in range (0, 400000):
+			trained_player.make_action(1)
+			if((i+1)%1000 == 0):
+				print("{} rounds completed".format(i))
+		#generate_frames(b, 20000, 8)
 		print("generating frames took {} seconds".format(time.time() - init_time))
 		for k in range (0, 30):
 			print("{} epochs completed".format(k))
