@@ -14,7 +14,8 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         Color restColor = Color.Gray, hoverColor = Color.DarkGray, filledColor = Color.Black;
-        int buttonSize = 20, padding = 2, gridOffsetX = 100, gridOffestY = 30;
+        int buttonSize = 20, padding = 2, gridOffsetX = 100, gridOffsetY = 30;
+        int pieceButtonSize = 30, pieceButtonPadding = 10, pieceOffsetX = 50, pieceOffsetY = 30, pieceButtonSeparation = 200;
         Button[,] grid = new Button[7, 7];
         bool[,] gridFlags = new bool[7, 7];
         Button[,] pieces = new Button[2, 4];
@@ -31,7 +32,7 @@ namespace WindowsFormsApp1
                     this.Controls.Add(b);
                     b.SetBounds(
                         (i * (buttonSize + padding)) + gridOffsetX, 
-                        (j * (buttonSize + padding)) + gridOffestY, 
+                        (j * (buttonSize + padding)) + gridOffsetY, 
                         buttonSize, 
                         buttonSize);
                     b.Click += new EventHandler(this.grid_clicked);
@@ -45,20 +46,27 @@ namespace WindowsFormsApp1
                     PieceButton b = new PieceButton(j, i);
                     this.Controls.Add(b);
                     pieces[i, j] = b;
-
+                    b.SetBounds(
+                        (pieceOffsetX + (i*pieceButtonSeparation)),
+                        (j * (pieceButtonSize + pieceButtonPadding)) + pieceOffsetY,
+                        pieceButtonSize,
+                        pieceButtonSize);
                 }
             }
         }
 
-       // private void Form1_Load(object sender, EventArgs e){
+        private void Form1_Load(object sender, EventArgs e){
 
-        //}
+        }
         private void grid_clicked(object sender, EventArgs e){
             GridButton btn = (GridButton)sender;
             if (pieceBeingPlaced && is_possible_piece(currentPiece, btn.x, btn.y)) {
-                btn.BackColor = hoverColor;
-                this.grid[btn.x + pieceLegs(currentPiece)[0], btn.y].BackColor = hoverColor;
-                this.grid[btn.x, btn.y + pieceLegs(currentPiece)[1]].BackColor = hoverColor;//UNFINISHED
+                btn.BackColor = filledColor;
+                this.grid[btn.x + pieceLegs(currentPiece)[0], btn.y].BackColor = filledColor;
+                this.grid[btn.x, btn.y + pieceLegs(currentPiece)[1]].BackColor = filledColor;//UNFINISHED
+                this.gridFlags[btn.x, btn.y] = true;
+                this.gridFlags[btn.x + pieceLegs(currentPiece)[0], btn.y] = true;
+                this.gridFlags[btn.x, btn.y + pieceLegs(currentPiece)[1]] = true;
             }
         }
         private void grid_hover(object sender, EventArgs e) {
@@ -160,6 +168,7 @@ namespace WindowsFormsApp1
     public class PieceButton : Button {
         public int pieceID, playerID;
         public PieceButton(int piece, int player) {
+            this.Text = piece.ToString();
             pieceID = piece;
             playerID = player;
         }
