@@ -4,7 +4,7 @@ import numpy as np
 from gridL_buffer import buffer_image
 import threading
 class agent ():
-	def __init__(self, buffer, game, target_update_rate):
+	def __init__(self, buffer, game, target_update_rate, leader_network = None):
 		self.game = game
 		a = len(tf.trainable_variables())
 		self.training_network = network() # stationary network that determines the loss value
@@ -17,9 +17,16 @@ class agent ():
 		self.sess = tf.Session()
 		self.sess.run(self.init)
 		self.buffer = buffer
-		self.ops = []
+		self.leader_network = leader_network
+		self.u_ops = []
+		self.lead_ops = []
 		for i, tensor in enumerate(self.training_vars):
-			self.ops.append(tensor.assign((target_update_rate * self.target_vars[i].value())+((1-target_update_rate) * tensor.value())))
+			self.u_ops.append(tensor.assign((target_update_rate * self.target_vars[i].value())+((1-target_update_rate) * tensor.value())))
+		if(self.leader_network != None):
+			for i, tensor in enumerate(self.training_vars):
+				self.lead_ops.append(tensor.assign((self.leader_network.training_vars[i].value())))
+			for i, tensor in enumerate(self.target_vars):
+				self.lead_ops.append(tensor.assign((self.leader_network.target_vars[i].value())))
 	def get_logits(self):
 		return self.sess.run(self.target_network.logits, feed_dict = {self.target_network.frame: [self.game.make_frame().flatten()]})
 	def make_action(self, prob_rand):
@@ -70,5 +77,8 @@ class agent ():
 			if(i % frames_until_reset == 0):
 				self.update_training_net()
 	def update_training_net(self):
-		for i, op in enumerate(self.ops):
+		for i, op in enumerate(self.u_ops):
+			self.sess.run(op)
+	def update_to_lead_network(self):
+		for i, op in enumerate(self.lead_ops):
 			self.sess.run(op)
