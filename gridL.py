@@ -74,8 +74,10 @@ while True:
 			if((i+1)%1000 == 0):
 				print("{} rounds completed".format(i))
 		print("generating frames took {} seconds".format(time.time() - init_time))
+		init_time = time.time()
 		for k in range (0, (20, 10)[opponent_is_random]):
-			print("{} epochs completed".format(k))
+			print("{} epochs completed. Epoch took {} seconds".format(k, init_time - time.time()))
+			init_time = time.time()
 			player2.train(0, 10000, 2000) #training loop should be moved out of conditional after testing
 	game.reset_game()
 	rand_wins, trained_wins = 0,0
