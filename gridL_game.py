@@ -107,9 +107,9 @@ class gameData ():
 		self.score[0,0] = self.score[0,1]
 		self.score[0,1] = a
 	def is_over(self):
-		if(self.score[0,0] == self.win_score):
+		if(self.score[0,0] >= self.win_score):
 			return 1
-		elif(self.score[0,1] == self.win_score):
+		elif(self.score[0,1] >= self.win_score):
 			return 2
 		else:
 			return 0

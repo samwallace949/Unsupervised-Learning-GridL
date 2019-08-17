@@ -4,7 +4,7 @@ import numpy as np
 from gridL_buffer import buffer_image
 import threading
 class agent ():
-	def __init__(self, buffer, game, target_update_rate, leader_network = None):
+	def __init__(self, session, buffer, game, target_update_rate, leader_network = None):
 		self.game = game
 		a = len(tf.trainable_variables())
 		self.training_network = network() # stationary network that determines the loss value
@@ -13,9 +13,7 @@ class agent ():
 		self.target_network = network() # takes actions within the environment to fill the experience buffer, learns online with every so many actions
 		self.target_vars = tf.trainable_variables()[a:]
 		print("Length of training and target networks respectively are {} and {}".format(len(self.training_vars), len(self.target_vars)))
-		self.init = tf.initializers.global_variables()
-		self.sess = tf.Session()
-		self.sess.run(self.init)
+		self.sess = session
 		self.buffer = buffer
 		self.leader_network = leader_network
 		self.u_ops = []
@@ -27,6 +25,12 @@ class agent ():
 				self.lead_ops.append(tensor.assign((self.leader_network.training_vars[i].value())))
 			for i, tensor in enumerate(self.target_vars):
 				self.lead_ops.append(tensor.assign((self.leader_network.target_vars[i].value())))
+		self.r,self.a = tf.placeholder(dtype = tf.float32),tf.placeholder(dtype = tf.int32)
+		self.x = (np.max(self.training_network.logits)) + self.r
+		self.y = self.target_network.logits[0][a]
+		self.loss = tf.square(tf.subtract(self.x,self.y))
+		self.optimizer = tf.train.AdamOptimizer(0.01)
+		self.train_op = self.optimizer.minimize(self.loss, var_list = self.target_vars)
 	def get_logits(self):
 		return self.sess.run(self.target_network.logits, feed_dict = {self.target_network.frame: [self.game.make_frame().flatten()]})
 	def make_action(self, prob_rand):
@@ -58,21 +62,15 @@ class agent ():
 		self.buffer.add_frame(buffer_image(o_s, final_action, reward, self.game.make_frame()))
 		self.game.rotate_game()	
 	def train(self, prob_reward_frame, num_frames, frames_until_reset):
-		r,a = tf.placeholder(dtype = tf.float32),tf.placeholder(dtype = tf.int32)
-		x = (np.max(self.training_network.logits)) + r
-		y = self.target_network.logits[0][a]
-		loss = tf.square(tf.subtract(x,y))
-		optimizer = tf.train.GradientDescentOptimizer(0.001)
-		train_op = optimizer.minimize(loss, var_list = self.target_vars)
 		for i in range (0, num_frames):
 			f = self.buffer.peek_frame_random()
 			if(np.random.random() < prob_reward_frame):
 				f = self.buffer.peek_frame_random_reward_threshold()
-			self.sess.run(train_op, feed_dict = 
+			self.sess.run(self.train_op, feed_dict = 
 			{self.target_network.frame: [f.o_s.flatten()], 
 			self.training_network.frame:[f.n_s.flatten()], 
-			r: float(f.r), 
-			a: int(f.a)}
+			self.r: float(f.r), 
+			self.a: int(f.a)}
 			)
 			if(i % frames_until_reset == 0):
 				self.update_training_net()

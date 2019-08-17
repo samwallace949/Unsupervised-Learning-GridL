@@ -45,3 +45,134 @@ Improvement: more-than-tripled the size of the hidden layers (63 to 196) and cha
 Date and Time of Run: 8.1.2019_13:26:19
 Wins: 96
 Losses: 4
+
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_1:18:29
+Wins: 94
+Losses: 6
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_1:22:12
+Wins: 98
+Losses: 2
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_5:51:7
+Wins: 89
+Losses: 11
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_5:59:26
+Wins: 9
+Losses: 91
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_12:56:6
+Wins: 11
+Losses: 89
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_13:5:17
+Wins: 8
+Losses: 92
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_13:14:57
+Wins: 7
+Losses: 93
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_13:24:49
+Wins: 17
+Losses: 83
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_15:33:55
+Wins: 43
+Losses: 57
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_17:5:25
+Wins: 0
+Losses: 100
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_17:10:29
+Wins: 48
+Losses: 52
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_17:22:0
+Wins: 46
+Losses: 54
+ Model Path: ./saved-models/model-0.ckpt
+
+
+
+Name of Run: 1
+Name of Opponent: Random
+Description: 400 thousand frames made randomly, 300 thousand trained randomly, updated training net every 1000 frames
+Date and Time of Run: 8.16.2019_17:34:45
+Wins: 56
+Losses: 44
+ Model Path: ./saved-models/model-0.ckpt
